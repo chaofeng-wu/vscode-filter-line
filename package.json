@@ -18,7 +18,8 @@
         "onCommand:extension.filterLineByNotContainInputString",
         "onCommand:extension.filterLineByNotMatchInputRegex",
         "onCommand:extension.filterLineByConfigFile",
-        "onCommand:extension.filterLineBy"
+        "onCommand:extension.filterLineBy",
+        "onCommand:extension.filterLineByTransformationChain"
     ],
     "main": "./out/extension",
     "contributes": {
@@ -46,6 +47,10 @@
             {
                 "command": "extension.filterLineBy",
                 "title": "Filter Line By..."
+            },
+            {
+                "command": "extension.filterLineByTransformationChain",
+                "title": "Filter Line By Transformation Chain"
             }
         ],
         "menus": {
@@ -74,6 +79,18 @@
                     "maximum": 50,
                     "scope": "application",
                     "description": "Filter patterns history size"
+                },
+                "filter-line.customLogLineBeginningRegex": {
+                    "type": "string",
+                    "default": "",
+                    "scope": "application",
+                    "description": "Custom log line beginning regex"
+                },
+                "filter-line.transformationChain": {
+                    "type": "string",
+                    "default": "",
+                    "scope": "application",
+                    "description": "Line Transformation Chain"
                 }
             }
         }
@@ -88,9 +105,9 @@
     "devDependencies": {
         "@types/mocha": "^2.2.42",
         "@types/node": "^12.7.5",
-        "vscode": "^1.1.36",
         "tslint": "^5.12.1",
-        "typescript": "^2.9.2"
+        "typescript": "^2.9.2",
+        "vscode": "^1.1.36"
     },
     "icon": "images/icon.png",
     "bugs": {

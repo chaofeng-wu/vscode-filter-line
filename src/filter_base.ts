@@ -28,6 +28,10 @@ class FilterLineBase{
         return vscode.workspace.getConfiguration('filter-line').get('historySize', 10);
     }
 
+    protected getCustomLogLineBeginningRegex(): string {
+        return vscode.workspace.getConfiguration('filter-line').get('customLogLineBeginningRegex', "");
+    }
+
     protected async addToHistory(key: string, newEl: string) {
         if (this.history[key] === undefined) {
             console.warn(`History doesn't contain '${key}' field`);
@@ -203,7 +207,8 @@ class FilterLineBase{
         console.log('input path: ' + inputPath);
         console.log('output path: ' + outputPath);
 
-
+        const customLogLineBeginningRegex = this.getCustomLogLineBeginningRegex();
+        let regex = new RegExp(customLogLineBeginningRegex);
         // open write file
         let writeStream = fs.createWriteStream(outputPath);
         writeStream.on('open', ()=>{
@@ -213,13 +218,25 @@ class FilterLineBase{
             const readLine = readline.createInterface({
                 input: fs.createReadStream(inputPath)
             });
-
+            let multiLine = "";
             // filter line by line
             readLine.on('line', (line: string)=>{
                 // console.log('line ', line);
-                let fixedline = this.matchLine(line);
-                if(fixedline !== undefined){
-                    writeStream.write(fixedline + '\n');
+                if(customLogLineBeginningRegex === ''){
+                    let fixedline = this.matchLine(line);
+                    if(fixedline !== undefined){
+                        writeStream.write(fixedline + '\n');
+                    }
+                }else{
+                    if (line.match(regex) === null) {
+                        multiLine += (line + '\n');
+                    } else {
+                        let fixedline = this.matchLine(multiLine);
+                        if(fixedline !== undefined){
+                            writeStream.write(fixedline);
+                        }
+                        multiLine = line + '\n';
+                    }
                 }
             }).on('close',()=>{
                 this.showInfo('Filter completed :)');

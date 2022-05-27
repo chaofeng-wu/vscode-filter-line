@@ -1,4 +1,4 @@
-#npm install
+npm install
 
 vsce package
-vsce publish patch
+# vsce publish patch

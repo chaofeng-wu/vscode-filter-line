@@ -1,6 +1,5 @@
 'use strict';
 import { FilterLineBase }  from './filter_base';
-import { padWithBlank } from './util';
 import { FilterConfigReader } from './config';
 
 class FilterLineByConfigFile extends FilterLineBase{
@@ -114,10 +113,6 @@ class FilterLineByConfigFile extends FilterLineBase{
                 return undefined;
             }
             if(res.length > 1){
-                for(let idx = 1; idx < res.length - 1; idx++){
-                    prefixstring += padWithBlank(res[idx],8);
-                    prefixstring += ' ';
-                }
                 content = res[res.length - 1];
                 content = content.trim();
             }
@@ -179,8 +174,6 @@ class FilterLineByConfigFile extends FilterLineBase{
                 contentstring = content;
             }
 
-            flagstring = padWithBlank(flagstring,4);
-            tagstring = padWithBlank(tagstring,4);
 
             return prefixstring + ' ' + flagstring + ' ' + tagstring + ' ' + contentstring;
         }

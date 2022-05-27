@@ -1,16 +1,5 @@
 'use strict';
 
-function padWithBlank(str:string, length:number){
-    if(str.length > length){
-        return str;
-    }
-    let pad:string = '';
-    for(let i=0;i<length - str.length;i++){
-        pad+=' ';
-    }
-    
-    return pad + str;
-}
 
 function readJsonFile(filePath: string): any | undefined{
     var fs = require('fs');
@@ -28,4 +17,4 @@ function readJsonFile(filePath: string): any | undefined{
     return undefined;
 }
 
-export {padWithBlank, readJsonFile};
+export {readJsonFile};
